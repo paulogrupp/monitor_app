@@ -1,0 +1,2 @@
+class MonitorAlertMailer < ApplicationMailer
+end
