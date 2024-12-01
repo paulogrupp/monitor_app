@@ -1,6 +1,6 @@
 require "test_helper"
 
-class MonitorFetcherJobTest < ActiveJob::TestCase
+class MonitorSchedulerJobTest < ActiveJob::TestCase
   # test "the truth" do
   #   assert true
   # end
