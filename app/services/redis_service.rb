@@ -19,6 +19,12 @@ class RedisService
     data ? JSON.parse(data) : nil
   end
 
+  def fetch_all_results
+    pattern = "#{@namespace}:*"
+    keys = @redis.scan_each(match: pattern).to_a
+    keys.map { |key| { key: key, value: JSON.parse(@redis.get(key)) } }
+  end
+
   def delete_result(key_id)
     redis_key = generate_key(key_id)
     @redis.del(redis_key)
