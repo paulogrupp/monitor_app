@@ -12,7 +12,6 @@ class MonitorExecutorService
   def execute
     response, duration, error_message = perform_http_request
     result = build_result(response, duration, error_message)
-    puts "RESULT: #{result}"
     save_result_to_redis(result)
     result
   end
@@ -44,11 +43,12 @@ class MonitorExecutorService
       response_time: duration,
       status_code: response&.code || "error",
       response_message: response&.message || error_message,
-      checked_at: Time.current.to_s
+      checked_at: Time.current.to_i
     }
   end
 
   def save_result_to_redis(result)
-    @redis_service.save_result(@monitor_id, result)
+    key = "#{result[:monitor_id]}-#{result[:checked_at]}"
+    @redis_service.save_result(key, result)
   end
 end
